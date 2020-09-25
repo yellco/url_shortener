@@ -7,3 +7,5 @@ Service for url shortener
 2) Add recent links
 
 3) Send messages by press 'Enter'
+
+4) Change styles for footer
