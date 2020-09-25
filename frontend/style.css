@@ -107,8 +107,20 @@ body {
     padding-right:40px;
 }
 
+.links .header {
+    font-weight: bold;
+}
 .links .link {
     text-align: left;
+    border-bottom: 1px solid #f3eded;
+    display: flex;
+    position: relative;
+}
+
+.links .number {
+    text-align: right;
+    position: absolute;
+    right: 0;
 }
 
 .footer {
