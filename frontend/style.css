@@ -78,7 +78,10 @@ body {
     border-radius: 5px;
     min-height: 220px;
     text-align: center;
-    min-width: 60%;
+}
+
+#other .block {
+    min-width: 60%; 
 }
 
 .block h2:after {
@@ -91,6 +94,21 @@ body {
     transform: translate(-50%,-50%);
     bottom: -5px;
     display: block;
+}
+
+#last {
+    max-width: 640px;
+    margin: 0 auto;
+    margin-top: 10px;
+}
+
+.links {
+    padding-left:40px;
+    padding-right:40px;
+}
+
+.links .link {
+    text-align: left;
 }
 
 .footer {
