@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Сокращение ссылок</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=PT+Sans&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="./img/favicon.ico" type="image/x-icon">
+</head>
+<body>
+    <div class="main">
+        <div id="top_color">
+            <p>URLer - cокращатель</p>
+        </div>
+        <div id="search">
+            <input id="input" type="text" name="url" placeholder="Введите url адрес"/>
+            <div id="submit"><img width="32px" src="./img/arrow.png"/></div>
+        </div>
+        <div id="other">
+            <div class="block">
+                <h2>Что это такое? </h2>
+                <div>URLer - cервис, который предоставляет возможность генерации сокращенных ссылок. Все ссылки хранятся в нашей базе.</div>     
+            </div> 
+            <div class="block">
+                <h2>Как сделать ссылку? </h2>
+                <div>Это очень просто. Необходимо скопировать нужную ссылку в буфер обмена (Ctrl + C) и вставить ссылку в поле для ввода выше, после чего нажать стрелочку и сокращенная ссылка будет готова. Нужно только ее скопировать.</div>     
+            </div>
+        </div>
+    </div>
+    <div class="modal novis">
+        <div id="close"><img width="16px" height="16px" src="./img/error.png"/></div>
+        Ваша ссылка: <br>
+        <div id="answer">
+            <input id="answer_text" readonly/>
+            <img id="copy" width="24px" height="24px" src="./img/copy.png">
+        </div>
+        <div id="others"></div>
+    </div>
+    <div class="back novis"></div>
+    <div class="footer">
+        Copyright © Yellco 2020        
+    </div>
+    <script>
+        document.getElementsByClassName("back")[0].onclick = function() {
+          closeModal();
+        }
+
+        document.getElementById("copy").onclick = function() {
+          let copyText = document.getElementById("answer_text");
+          copyText.select();
+          document.execCommand("copy");
+          document.getElementById("others").textContent = 'Ссылка скопирована';
+          document.getElementById("others").classList.remove('novis');
+          document.getElementById("others").classList.add('vis');
+
+          setTimeout(function(){
+              document.getElementById("others").classList.remove('vis');
+              document.getElementById("others").classList.add('novis');
+          }, 5000);
+        }
+
+        document.getElementById("close").onclick = function() {
+            closeModal();          
+        }
+
+        document.getElementById("submit").onclick = function() {
+            return xmlHttpRequest()
+              .then(function(text){
+            //   console.log(text);
+              document.getElementById("answer_text").value = text;
+              openModal();
+            }).catch(function(err){
+              console.error(err);
+            });
+        }
+
+        function closeModal(){
+            document.getElementsByClassName("modal")[0].classList.remove('vis');
+            document.getElementsByClassName("modal")[0].classList.add('novis');
+            document.getElementsByClassName("back")[0].classList.remove('vis');
+            document.getElementsByClassName("back")[0].classList.add('novis');
+        }
+
+        function openModal() {
+            document.getElementsByClassName("modal")[0].classList.add('vis');
+            document.getElementsByClassName("modal")[0].classList.remove('novis');
+            document.getElementsByClassName("back")[0].classList.add('vis');
+            document.getElementsByClassName("back")[0].classList.remove('novis');            
+        }
+
+        let xmlHttpRequest = function(){
+            let val = document.getElementById("input").value;
+            val.textContent = '';
+            return new Promise(function(resolve, reject) {
+                let xhr = new XMLHttpRequest();
+                xhr.open('GET', 'http://yellco.ru/api/url?link=' + val, true);
+                let text = 'empty';
+
+                xhr.onreadystatechange = function() {
+                if (this.readyState === 4) {
+                  if (this.status >= 200 && this.status < 400) {
+                    // var r=JSON.parse(this.responseText);
+                    // text=r.text[0];
+                    // console.log(this.responseText)
+                    resolve(this.responseText); // Вызываем resolve и передаем text в качестве параметра
+                  } else {
+                    reject(new Error('Error')); // Обработка ошибки
+                  }
+                }
+                };
+                xhr.send();
+            })
+        }
+    </script>
+</body>
+</html>
