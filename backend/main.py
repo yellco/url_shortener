@@ -60,7 +60,7 @@ def url():
 
 	min_attributes = ('scheme', 'netloc')
 	if not all([getattr(token, attr) for attr in min_attributes]):
-		error = "'{url}' некорректен".format(url=token.geturl())
+		error = "'{url}' некорректная ссылка".format(url=token.geturl())
 		return error
 
 	hashname = unique()[2:8]
