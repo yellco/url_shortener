@@ -124,6 +124,7 @@
                 document.getElementById("answer_text").value = text;
                 openModal();
             }).catch(function(err){
+
                 document.getElementById("answer_text").value = 'Некорректная ссылка';
                 openModal();
                 console.error(err);
@@ -153,13 +154,15 @@
                 let text = 'empty';
 
                 xhr.onreadystatechange = function() {
-                if (this.readyState === 4) {
-                  if (this.status >= 200 && this.status < 400) {
-                    resolve(this.responseText); // Вызываем resolve и передаем text в качестве параметра
-                  } else {
-                    reject(new Error('Error')); // Обработка ошибки
-                  }
-                }
+                    if (this.readyState === 4) {
+                        if (this.status >= 200 && this.status < 400) {
+                            resolve(this.responseText); // Вызываем resolve и передаем text в качестве параметра
+                        } else if (this.status == 429) {
+                            resolve("Слишком частое обращение к серверу");
+                        } else {
+                            reject(new Error('Error')); // Обработка ошибки
+                        }
+                    }
                 };
                 xhr.send();
             })
