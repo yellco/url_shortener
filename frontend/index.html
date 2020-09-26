@@ -34,7 +34,7 @@
                 <div class="link"><div>https://www.yandex.com</div><div class="number">2</div></div>
                 <div class="link"><div>https://www.rambler.ru</div><div class="number">1</div></div>
                 <div class="link"><div>https://www.mail.ru</div><div class="number">0</div></div>
-                <div class="link"><div>https://www.google.com</div><div class="number">2</div></div>             
+                <div class="link"><div>https://www.google.com</div><div class="number">2</div></div>           
             </div>
         </div>
     </div>
@@ -77,11 +77,12 @@
         document.getElementById("submit").onclick = function() {
             return xmlHttpRequest()
               .then(function(text){
-            //   console.log(text);
-              document.getElementById("answer_text").value = text;
-              openModal();
+                document.getElementById("answer_text").value = text;
+                openModal();
             }).catch(function(err){
-              console.error(err);
+                document.getElementById("answer_text").value = text;
+                openModal();
+                console.error(err);
             });
         }
 
@@ -104,15 +105,12 @@
             val.textContent = '';
             return new Promise(function(resolve, reject) {
                 let xhr = new XMLHttpRequest();
-                xhr.open('GET', 'http://yellco.ru/api/url?link=' + val, true);
+                xhr.open('GET', 'https://yellco.ru/api/url?link=' + val, true);
                 let text = 'empty';
 
                 xhr.onreadystatechange = function() {
                 if (this.readyState === 4) {
                   if (this.status >= 200 && this.status < 400) {
-                    // var r=JSON.parse(this.responseText);
-                    // text=r.text[0];
-                    // console.log(this.responseText)
                     resolve(this.responseText); // Вызываем resolve и передаем text в качестве параметра
                   } else {
                     reject(new Error('Error')); // Обработка ошибки
