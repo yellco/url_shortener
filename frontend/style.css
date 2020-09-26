@@ -3,6 +3,7 @@ html {
 }
 body {
     font-family: 'PT Sans', sans-serif;
+    margin: 0px;
 }
 #submit{
     cursor: pointer;
@@ -35,7 +36,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    max-width: 700px;
+    max-width: 660px;
     margin-left: auto;
     margin-right: auto;
 }
@@ -97,7 +98,7 @@ body {
 }
 
 #last {
-    max-width: 640px;
+    max-width: 679px;
     margin: 0 auto;
     margin-top: 10px;
 }
@@ -117,6 +118,11 @@ body {
     position: relative;
 }
 
+.link a{
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .links .number {
     text-align: right;
     position: absolute;
@@ -124,14 +130,12 @@ body {
 }
 
 .footer {
+    margin-top: 119px;
     background: #01bbd4;
-    position: absolute;
     text-align: center;
     bottom: 0;
     padding: 10px;
     color: white;
-    left: 0;
-    right: 0;
 }
 .modal {
     position: absolute;
@@ -187,7 +191,7 @@ body {
 }
 
 #answer_text {
-    width: 100%;
+    width: 90%;
     height: 100%;
     font-size: 20px;
     background: #efefef;
@@ -201,4 +205,34 @@ body {
 
 .vis {
     display: block;
+}
+
+@media (max-width: 720px) {
+    #search {
+        max-width: 90%;
+    }
+
+    #other {
+        display: block;
+        width: 95%;
+    }
+
+    #top_color {
+        font-size: 40px;
+    }
+
+    #last {
+        width: 95%;
+        max-width: none;
+        margin-left: auto;
+        margin-right: auto;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .inner {
+        min-width: 60%;
+        margin: 10px;
+        padding: 10px;
+    }
 }

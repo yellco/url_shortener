@@ -27,14 +27,16 @@
                 <div>Это очень просто. Необходимо скопировать нужную ссылку в буфер обмена (Ctrl + C) и вставить ссылку в поле для ввода выше, после чего нажать стрелочку и сокращенная ссылка будет готова. Нужно только ее скопировать.</div>     
             </div>
         </div>
-        <div class="block" id="last">
-            <h2>Последние ссылки </h2>
-            <div class="links">
-                <div class="header link"><div>Ссылка</div><div class="number">Количество переходов</div></div>
-                <div class="link"><div>https://www.yandex.com</div><div class="number">2</div></div>
-                <div class="link"><div>https://www.rambler.ru</div><div class="number">1</div></div>
-                <div class="link"><div>https://www.mail.ru</div><div class="number">0</div></div>
-                <div class="link"><div>https://www.google.com</div><div class="number">2</div></div>           
+        <div id="last">
+            <div class="inner block">
+                <h2>Последние ссылки </h2>
+                <div class="links">
+                    <div class="link"><a href="" target="__blank">https://www.yandex.com</a></div>
+                    <div class="link"><a href="" target="__blank">https://www.yandex.com</a></div>
+                    <div class="link"><a href="" target="__blank">https://www.yandex.com</a></div>
+                    <div class="link"><a href="" target="__blank">https://www.yandex.com</a></div>
+                    <div class="link"><a href="" target="__blank">https://www.yandex.com</a></div>         
+                </div>
             </div>
         </div>
     </div>
@@ -75,6 +77,22 @@
         }
 
         document.getElementById("submit").onclick = function() {
+            send_request();
+        }
+
+        document.querySelector('#input').addEventListener('keydown', function(e) {
+            if (e.keyCode === 13) {
+                send_request();
+            }
+        });
+
+        window.onkeydown = function( event ) {
+            if ( event.keyCode == 27 ) {
+                closeModal();
+            }
+        };
+
+        function send_request() {
             return xmlHttpRequest()
               .then(function(text){
                 document.getElementById("answer_text").value = text;
