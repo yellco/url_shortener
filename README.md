@@ -2,10 +2,4 @@
 Service for url shortener
 
 ## TO DO
-1) Mobile version
-
-2) Add recent links
-
-3) Send messages by press 'Enter'
-
-4) Change styles for footer
+1) Add recent links
