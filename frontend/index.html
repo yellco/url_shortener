@@ -124,7 +124,7 @@
                 document.getElementById("answer_text").value = text;
                 openModal();
             }).catch(function(err){
-                document.getElementById("answer_text").value = text;
+                document.getElementById("answer_text").value = 'Некорректная ссылка';
                 openModal();
                 console.error(err);
             });
