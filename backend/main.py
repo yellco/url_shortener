@@ -61,7 +61,10 @@ def url():
 	min_attributes = ('scheme', 'netloc')
 	if not all([getattr(token, attr) for attr in min_attributes]):
 		error = "'{url}' некорректная ссылка".format(url=token.geturl())
-		return error
+		return error, 400
+	
+	if "yellco.ru/r/" in link:
+		return "Нельзя сократить ссылку", 400
 
 	hashname = unique()[2:8]
 	new_url = 'https://yellco.ru/r/' + hashname
@@ -75,7 +78,7 @@ def url():
 		new_url = 'https://yellco.ru/r/' + hashname
 		requesttodb = ("select exists(select 1 from linksnew where link='{}');".format(new_url))
 		if i==20:
-			return 'Проблема с сервером'
+			return 'Проблема с сервером', 500
 	datenow = datetime.now()
 	database_request(("insert into linksnew (link, our_link) values ('{}', '{}') returning 1;".format(link, new_url)))
 	return new_url
