@@ -4,7 +4,7 @@ from datetime import datetime
 import hashlib
 import sys
 import psycopg2
-import validators
+import urllib
 
 with open('./conf/config.json', 'r') as f:
 	data = json.loads(f.read())
@@ -36,12 +36,19 @@ def unique():
 
 	return ts_sum[2 : len(ts_sum)]
 
+def uri_validator(x):
+    try:
+        result = urlparse(x)
+        return all([result.scheme, result.netloc, result.path])
+    except:
+        return False
+
 app = Flask(__name__)
 
 @app.route('/r/<hashname>')
 def red(hashname):
 # Метод возвращает ссылку из базы для редиректа на фронте
-	link = 'http://yellco.ru' + request.path
+	link = 'https://yellco.ru' + request.path
 	rqst = database_request("select link from links where our_link='{}';".format(link))
 	return redirect(rqst[0][0])
 
@@ -49,12 +56,15 @@ def red(hashname):
 def url():
 	link = request.args.get('link')
 
-    # Проверяем действительно ли ссылка к нам пришла
-	if not validators.url(link):
-		return "Указана неверная ссылка"
+	token = urllib.parse.urlparse(link)
+
+	min_attributes = ('scheme', 'netloc')
+	if not all([getattr(token, attr) for attr in min_attributes]):
+		error = "'{url}' некорректен".format(url=token.geturl())
+		return error
 
 	hashname = unique()[2:8]
-	new_url = 'http://yellco.ru/r/' + hashname
+	new_url = 'https://yellco.ru/r/' + hashname
 	requesttodb = ("select exists(select 1 from links where our_link='{}');".format(new_url))
 	requesttodb2 = ("select exists(select 1 from links where link='{}');".format(link))
 	if database_request(requesttodb2)[0][0]:
@@ -62,7 +72,7 @@ def url():
 	i=0
 	while database_request(requesttodb)[0][0]:
 		i+=1
-		new_url = 'http://yellco.ru/r/' + hashname
+		new_url = 'https://yellco.ru/r/' + hashname
 		requesttodb = ("select exists(select 1 from links where link='{}');".format(new_url))
 		if i==20:
 			return 'Проблема с сервером'
