@@ -31,11 +31,7 @@
             <div class="inner block">
                 <h2>Последние ссылки </h2>
                 <div class="links">
-                    <div class="link"><a href="" target="__blank">https://www.yandex.com</a></div>
-                    <div class="link"><a href="" target="__blank">https://www.yandex.com</a></div>
-                    <div class="link"><a href="" target="__blank">https://www.yandex.com</a></div>
-                    <div class="link"><a href="" target="__blank">https://www.yandex.com</a></div>
-                    <div class="link"><a href="" target="__blank">https://www.yandex.com</a></div>         
+                    <div class="lds-facebook"><div></div><div></div><div></div></div>      
                 </div>
             </div>
         </div>
@@ -86,11 +82,41 @@
             }
         });
 
+        window.onload = function () {
+            getlinks();
+        }
+
+        function addlinks(data) {
+            if ("notes" in data) {
+                document.getElementsByClassName("links")[0].innerHTML = "";
+                data['notes'].map(e => {
+                    let div = document.createElement('div');
+                    div.className = "link";
+                    div.innerHTML = "<a href='" + e[1] + "' target='__blank'>" + e[1] + "</a>";
+
+                    document.getElementsByClassName("links")[0].append(div);
+                });
+            }
+        }
+
         window.onkeydown = function( event ) {
             if ( event.keyCode == 27 ) {
                 closeModal();
             }
         };
+
+        function getlinks() {
+            fetch('//yellco.ru/api/url/links')
+            .then((response) => {
+                return response.json();
+            })
+            .then((data) => {
+                addlinks(data);
+            })
+            .catch((err) => {
+                setTimeout(getlinks, 3000);
+            });
+        }
 
         function send_request() {
             return xmlHttpRequest()
@@ -123,7 +149,7 @@
             val.textContent = '';
             return new Promise(function(resolve, reject) {
                 let xhr = new XMLHttpRequest();
-                xhr.open('GET', 'https://yellco.ru/api/url?link=' + val, true);
+                xhr.open('GET', '//yellco.ru/api/url?link=' + val, true);
                 let text = 'empty';
 
                 xhr.onreadystatechange = function() {
