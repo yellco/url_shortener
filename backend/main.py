@@ -49,7 +49,7 @@ app = Flask(__name__)
 def red(hashname):
 # Метод возвращает ссылку из базы для редиректа на фронте
 	link = 'https://yellco.ru' + request.path
-	rqst = database_request("select link from links where our_link='{}';".format(link))
+	rqst = database_request("select link from linksnew where our_link='{}';".format(link))
 	return redirect(rqst[0][0])
 
 @app.route('/api/url')
@@ -65,24 +65,26 @@ def url():
 
 	hashname = unique()[2:8]
 	new_url = 'https://yellco.ru/r/' + hashname
-	requesttodb = ("select exists(select 1 from links where our_link='{}');".format(new_url))
-	requesttodb2 = ("select exists(select 1 from links where link='{}');".format(link))
+	requesttodb = ("select exists(select 1 from linksnew where our_link='{}');".format(new_url))
+	requesttodb2 = ("select exists(select 1 from linksnew where link='{}');".format(link))
 	if database_request(requesttodb2)[0][0]:
-		return database_request("select our_link from links where link='{}';".format(link))[0][0]
+		return database_request("select our_link from linksnew where link='{}';".format(link))[0][0]
 	i=0
 	while database_request(requesttodb)[0][0]:
 		i+=1
 		new_url = 'https://yellco.ru/r/' + hashname
-		requesttodb = ("select exists(select 1 from links where link='{}');".format(new_url))
+		requesttodb = ("select exists(select 1 from linksnew where link='{}');".format(new_url))
 		if i==20:
 			return 'Проблема с сервером'
 	datenow = datetime.now()
-	database_request(("insert into links (link, our_link, date) values ('{}', '{}', '{}') returning 1;".format(link, new_url, datenow)))
+	database_request(("insert into linksnew (link, our_link) values ('{}', '{}') returning 1;".format(link, new_url)))
 	return new_url
 
 @app.route('/api/url/links')
 def links():
-	return database_request("select * from links;")
+	links = database_request("select * from linksnew order by addtime desc limit 10;")
+	json = dict(notes=links)
+	return json
 
 if __name__ == '__main__':
 	app.run()
