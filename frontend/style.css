@@ -77,8 +77,9 @@ body {
     padding: 10px;
     box-shadow: 0 0 7px #dcdcdc;
     border-radius: 5px;
-    min-height: 220px;
+    min-height: 200px;
     text-align: center;
+    padding-bottom: 1.83em;
 }
 
 #other .block {
