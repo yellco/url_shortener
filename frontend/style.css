@@ -5,6 +5,10 @@ body {
     font-family: 'PT Sans', sans-serif;
     margin: 0px;
 }
+.main {
+    min-height: calc(100vh - 300px - 40px - 80px);
+}
+
 #submit{
     cursor: pointer;
 }
@@ -77,7 +81,7 @@ body {
     padding: 10px;
     box-shadow: 0 0 7px #dcdcdc;
     border-radius: 5px;
-    min-height: 200px;
+    min-height: 210px;
     text-align: center;
     padding-bottom: 1.83em;
 }
@@ -107,6 +111,7 @@ body {
 .links {
     padding-left:40px;
     padding-right:40px;
+    min-height: 168px;
 }
 
 .links .header {
