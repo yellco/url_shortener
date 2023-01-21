@@ -11,10 +11,11 @@ with open('./conf/config.json', 'r') as f:
 	user = data['user']
 	host = data['host']
 	port = data['port']
+	password = data['password']
 	database = data['database']
 
 def database_request(req, records = []):
-	conn = psycopg2.connect(dbname=database, user=user, host=host, port=port)
+	conn = psycopg2.connect(dbname=database, user=user, host=host, port=port, password=password)
 	cursor = conn.cursor()
 	cursor.execute(req)
 	records = cursor.fetchall()
