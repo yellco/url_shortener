@@ -90,5 +90,9 @@ def links():
 	json = dict(notes=links)
 	return json
 
+@app.route('/api/test')
+def test_route():
+	return "It works"
+
 if __name__ == '__main__':
 	app.run()
